@@ -42,7 +42,7 @@ blueprint:
           mode: slider
           step: 1
           unit_of_measurement: "%"
-    colour_temperature:
+    colour_temp:
       name: Colour temparature
       description: Colour temperature of the light(s) when turning on
       default: 340
