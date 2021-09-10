@@ -31,6 +31,14 @@ blueprint:
       default: false
       selector:
         boolean:
+    force_colour_temp:
+      name: Force turn on colour temp
+      description: >
+        Force the colour temperature to the set level below, when the "on"
+        button on the remote is pushed and lights turn on.
+      default: false
+      selector:
+        boolean:
     brightness:
       name: Brightness
       description: Brightness of the light(s) when turning on
@@ -104,7 +112,7 @@ action:
           - choose:
               - conditions: 
                   - "{{ force_brightness }}"
-                  - "{{ force_colour }}"
+                  - "{{ force_colour_temp }}"
                 sequence:
                   - service: light.toggle
                     target: !input light
