@@ -90,6 +90,7 @@ max_exceeded: silent
 
 variables:
   force_brightness: !input force_brightness
+  force_colour_temp: !input force_colour_temp
 
 trigger:
   - platform: event
