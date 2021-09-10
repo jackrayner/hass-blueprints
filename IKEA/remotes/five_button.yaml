@@ -120,9 +120,7 @@ action:
                     data:
                       transition: 1
                       brightness_pct: !input brightness
-                      hs_color:
-                        - !input colour_temp
-                        - 0
+                      color_temp: !input colour_temp
               - conditions: 
                   - "{{ force_brightness }}"
                 sequence:
@@ -138,9 +136,7 @@ action:
                     target: !input light
                     data:
                       transition: 1
-                      hs_color:
-                        - !input colour_temp
-                        - 0
+                      color_temp: !input colour_temp
             default:
               - service: light.toggle
                 target: !input light
