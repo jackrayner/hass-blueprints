@@ -131,7 +131,7 @@ action:
                       transition: 1
                       brightness_pct: !input brightness
               - conditions: 
-                  - "{{ colour_temp }}"
+                  - "{{ force_colour_temp }}"
                 sequence:
                   - service: light.toggle
                     target: !input light
