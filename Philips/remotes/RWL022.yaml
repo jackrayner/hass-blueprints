@@ -94,13 +94,13 @@ blueprint:
       selector:
         boolean:
     default_colour_temp:
-      name: Default colour temperature if the "Always Sync" toggle is on
+      name: Always Sync - colour temperature
       description: 'Colour temperature to set lights to when long-pressing the on button'
       default: 300
       selector:
         color_temp:
     default_brightness:
-      name: Default brightness if "Always Sync" toggle is on
+      name: Always Sync - brightness
       description: 'Brightness percentage to set lights to when long-pressing the on button'
       default: 80
       selector:
@@ -110,6 +110,31 @@ blueprint:
           mode: slider
           step: 1.0
           unit_of_measurement: '%'
+    night_mode:
+      name: Night Mode
+      description: 'Map the on button to a specific scene at night'
+      default: false
+      selector:
+        boolean:
+    night_mode_start:
+      name: Night Mode - start time
+      description: 'Start time for Night Mode'
+      default: '23:00:00'
+      selector:
+        time:
+    night_mode_end:
+      name: Night Mode - end time
+      description: 'End time for Night Mode'
+      default: '07:00:00'
+      selector:
+        time:
+    night_mode_scene:
+      name: Night Mode - scene
+      description: 'Scene for use with Night Mode'
+      selector:
+        entity:
+          domain: scene
+          multiple: false
 mode: restart
 max_exceeded: silent
 variables:
@@ -127,6 +152,14 @@ action:
   - conditions: '{{ command == ''on_press'' }}'
     sequence:
       - choose:
+        - conditions:
+            condition: time
+            after: !input 'night_mode_start'
+            before: !input 'night_mode_end'
+          sequence:
+            service: scene.turn_on
+            target: 
+              entity_id: !input 'night_mode_scene'
         - conditions: '{{ sync }}'
           sequence:
             service: light.turn_on
