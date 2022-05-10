@@ -1,0 +1,187 @@
+blueprint:
+  source_url: https://github.com/jackrayner/hass-blueprints/blob/main/Philips/remotes/RWL022.yaml
+  name: ZHA - Philips Hue Dimmer (RWL022)
+  description: 'Control lights with a Philips Hue Dimmer Switch.
+
+    - Pressing the top button once briefly turns on the lights to their last status and colour temperature.
+
+    - Pressing the bottom hue/off button once briefly will turn the lights off.
+
+    - Long-pressing the on button will set the brightness and colour temperature of all lights to the specified values for "On button long-press brightness/colour temperature".
+    
+    - Long-pressing the off button will set the brightness and colour temperature of all lights to the specified values for "Off button long-press brightness/colour temperature".
+    
+    - Clicking or holding either of middle dimmer buttons will adjust the brightness up and down accordingly.
+    
+    - Double click either the on or off button to activate a specified scene.
+
+    - "Always Sync" mode with configurable colour temperature and brightness to always set the lights to defined values when powered on.
+
+    **Note:** the button referred to as "off" has "hue" written on it.
+    '
+  domain: automation
+  input:
+    remote:
+      name: Philips Hue Dimmer Switch
+      description: Pick a RWL022 Dimmer Switch
+      selector:
+        device:
+          integration: zha
+          model: RWL022
+          entity:
+            domain: sensor
+            device_class: battery
+          multiple: false
+    light:
+      name: Light(s)
+      description: The light(s) to control
+      selector:
+        target:
+          entity:
+            domain: light
+    on_colour_temp:
+      name: On button long-press colour temperature
+      description: 'Colour temperature to set lights to when long-pressing the on button'
+      default: 300
+      selector:
+        color_temp:
+    on_brightness:
+      name: On button long-press brightness
+      description: 'Brightness percentage to set lights to when long-pressing the on button'
+      default: 100
+      selector:
+        number:
+          min: 0.0
+          max: 100.0
+          mode: slider
+          step: 1.0
+          unit_of_measurement: '%'
+    off_colour_temp:
+      name: Off button long-press colour temperature
+      description: 'Colour temperature to set lights to when long-pressing the off button'
+      default: 454
+      selector:
+        color_temp:
+    off_brightness:
+      name: Off button long-press brightness
+      description: 'Brightness percentage to set lights to when long-pressing the off button'
+      default: 25
+      selector:
+        number:
+          min: 0.0
+          max: 100.0
+          mode: slider
+          step: 1.0
+          unit_of_measurement: '%'
+    on_scene:
+      name: On button double-click scene select
+      description: 'Double-click the on button to quickly change to a specified scene.'
+      selector:
+        entity:
+          domain: scene
+          multiple: false
+    off_scene:
+      name: Off button double-click scene select
+      description: 'Double-click the off (hue) button to quickly change to a specified scene.'
+      selector:
+        entity:
+          domain: scene
+          multiple: false
+    sync:
+      name: Always Sync
+      description: 'Always set light colour and brightness to a set of defaults on power on'
+      default: false
+      selector:
+        boolean:
+    default_colour_temp:
+      name: Default colour temperature if the "Always Sync" toggle is on
+      description: 'Colour temperature to set lights to when long-pressing the on button'
+      default: 300
+      selector:
+        color_temp:
+    default_brightness:
+      name: Default brightness if "Always Sync" toggle is on
+      description: 'Brightness percentage to set lights to when long-pressing the on button'
+      default: 80
+      selector:
+        number:
+          min: 0.0
+          max: 100.0
+          mode: slider
+          step: 1.0
+          unit_of_measurement: '%'
+mode: restart
+max_exceeded: silent
+variables:
+  sync: !input "sync"
+trigger:
+- platform: event
+  event_type: zha_event
+  event_data:
+    device_id: !input 'remote'
+    cluster_id: 64512
+action:
+- variables:
+    command: '{{ trigger.event.data.command }}'
+- choose:
+  - conditions: '{{ command == ''on_press'' }}'
+    sequence:
+      - choose:
+        - conditions: '{{ sync }}'
+          sequence:
+            service: light.turn_on
+            target: !input 'light'
+            data:
+              brightness_pct: !input 'default_brightness'
+              color_temp: !input 'default_colour_temp' 
+        default:
+          - service: light.turn_on
+            target: !input 'light' 
+  - conditions: '{{ command == ''on_double_press'' }}'
+    sequence:
+      service: scene.turn_on
+      target: 
+        entity_id: !input 'on_scene'
+  - conditions: '{{ command == ''on_hold'' }}'
+    sequence:
+      service: light.turn_on
+      target: !input 'light'
+      data:
+        brightness_pct: !input 'on_brightness'
+        color_temp: !input 'on_colour_temp' 
+  - conditions: '{{ command == ''off_press'' }}'
+    sequence:
+      service: light.turn_off
+      target: !input 'light'
+  - conditions: '{{ command == ''off_double_press'' }}'
+    sequence:
+      service: scene.turn_on
+      target: 
+        entity_id: !input 'off_scene'
+  - conditions: '{{ command == ''off_hold'' }}'
+    sequence:
+      service: light.turn_on
+      target: !input 'light'
+      data:
+        brightness_pct: !input 'off_brightness'
+        color_temp: !input 'off_colour_temp' 
+  - conditions:
+    - condition: or
+      conditions:
+      - '{{ command == ''up_press'' }}'
+      - '{{ command == ''up_hold'' }}'
+    sequence:
+      service: light.turn_on
+      target: !input 'light'
+      data:
+        brightness_step: 25
+  - conditions:
+    - condition: or
+      conditions:
+      - '{{ command == ''down_press'' }}'
+      - '{{ command == ''down_hold'' }}'
+    sequence:
+      service: light.turn_on
+      target: !input 'light'
+      data:
+        brightness_step: -25
