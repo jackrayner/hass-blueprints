@@ -8,11 +8,11 @@ blueprint:
     - Pressing the bottom hue/off button once briefly will turn the lights off.
 
     - Long-pressing the on button will set the brightness and colour temperature of all lights to the specified values for "On button long-press brightness/colour temperature".
-    
+
     - Long-pressing the off button will set the brightness and colour temperature of all lights to the specified values for "Off button long-press brightness/colour temperature".
-    
+
     - Clicking or holding either of middle dimmer buttons will adjust the brightness up and down accordingly.
-    
+
     - Double click either the on or off button to activate a specified scene.
 
     - "Always Sync" mode with configurable colour temperature and brightness to always set the lights to defined values when powered on.
@@ -149,7 +149,7 @@ action:
 - variables:
     command: '{{ trigger.event.data.command }}'
 - choose:
-  - conditions: '{{ command == ''on_press'' }}'
+  - conditions: '{{ command == ''on_short_release'' }}'
     sequence:
       - choose:
         - conditions:
@@ -158,7 +158,7 @@ action:
             before: !input 'night_mode_end'
           sequence:
             service: scene.turn_on
-            target: 
+            target:
               entity_id: !input 'night_mode_scene'
         - conditions: '{{ sync }}'
           sequence:
@@ -166,14 +166,14 @@ action:
             target: !input 'light'
             data:
               brightness_pct: !input 'default_brightness'
-              color_temp: !input 'default_colour_temp' 
+              color_temp: !input 'default_colour_temp'
         default:
           - service: light.turn_on
-            target: !input 'light' 
+            target: !input 'light'
   - conditions: '{{ command == ''on_double_press'' }}'
     sequence:
       service: scene.turn_on
-      target: 
+      target:
         entity_id: !input 'on_scene'
   - conditions: '{{ command == ''on_hold'' }}'
     sequence:
@@ -181,15 +181,15 @@ action:
       target: !input 'light'
       data:
         brightness_pct: !input 'on_brightness'
-        color_temp: !input 'on_colour_temp' 
-  - conditions: '{{ command == ''off_press'' }}'
+        color_temp: !input 'on_colour_temp'
+  - conditions: '{{ command == ''off_short_release'' }}'
     sequence:
       service: light.turn_off
       target: !input 'light'
   - conditions: '{{ command == ''off_double_press'' }}'
     sequence:
       service: scene.turn_on
-      target: 
+      target:
         entity_id: !input 'off_scene'
   - conditions: '{{ command == ''off_hold'' }}'
     sequence:
@@ -197,7 +197,7 @@ action:
       target: !input 'light'
       data:
         brightness_pct: !input 'off_brightness'
-        color_temp: !input 'off_colour_temp' 
+        color_temp: !input 'off_colour_temp'
   - conditions:
     - condition: or
       conditions:
