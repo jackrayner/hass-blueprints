@@ -90,6 +90,7 @@ max_exceeded: silent
 
 variables:
   force_brightness: !input force_brightness
+  force_colour_temp: !input force_colour_temp
 
 trigger:
   - platform: event
@@ -129,13 +130,13 @@ action:
                       transition: 1
                       brightness_pct: !input brightness
               - conditions: 
-                  - "{{ colour_temp }}"
+                  - "{{ force_colour_temp }}"
                 sequence:
                   - service: light.toggle
                     target: !input light
                     data:
                       transition: 1
-                      brightness_pct: !input colour_temp
+                      color_temp: !input colour_temp
             default:
               - service: light.toggle
                 target: !input light
