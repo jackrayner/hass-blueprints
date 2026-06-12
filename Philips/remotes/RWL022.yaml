@@ -42,9 +42,12 @@ blueprint:
     on_colour_temp:
       name: On button long-press colour temperature
       description: 'Colour temperature to set lights to when long-pressing the on button'
-      default: 300
+      default: 4500
       selector:
         color_temp:
+          min: 2300
+          max: 6700
+          unit: kelvin
     on_brightness:
       name: On button long-press brightness
       description: 'Brightness percentage to set lights to when long-pressing the on button'
@@ -59,9 +62,12 @@ blueprint:
     off_colour_temp:
       name: Off button long-press colour temperature
       description: 'Colour temperature to set lights to when long-pressing the off button'
-      default: 454
+      default: 3000
       selector:
         color_temp:
+          min: 2300
+          max: 6700
+          unit: kelvin
     off_brightness:
       name: Off button long-press brightness
       description: 'Brightness percentage to set lights to when long-pressing the off button'
@@ -73,20 +79,46 @@ blueprint:
           mode: slider
           step: 1.0
           unit_of_measurement: '%'
-    on_scene:
-      name: On button double-click scene select
-      description: 'Double-click the on button to quickly change to a specified scene.'
+    on_double_click_colour_temp:
+      name: On button double-click colour temperature
+      description: 'Colour temperature to set lights to when double-clicking the on button'
+      default: 4500
       selector:
-        entity:
-          domain: scene
-          multiple: false
-    off_scene:
-      name: Off button double-click scene select
-      description: 'Double-click the off (hue) button to quickly change to a specified scene.'
+        color_temp:
+          min: 2300
+          max: 6700
+          unit: kelvin
+    on_double_click_brightness:
+      name: On button double-click brightness
+      description: 'Brightness percentage to set lights to when double-clicking the on button'
+      default: 100
       selector:
-        entity:
-          domain: scene
-          multiple: false
+        number:
+          min: 0.0
+          max: 100.0
+          mode: slider
+          step: 1.0
+          unit_of_measurement: '%'
+    off_double_click_colour_temp:
+      name: Off button double-click colour temperature
+      description: 'Colour temperature to set lights to when double-clicking the off (hue) button'
+      default: 2700
+      selector:
+        color_temp:
+          min: 2300
+          max: 6700
+          unit: kelvin
+    off_double_click_brightness:
+      name: Off button double-click brightness
+      description: 'Brightness percentage to set lights to when double-clicking the off (hue) button'
+      default: 25
+      selector:
+        number:
+          min: 0.0
+          max: 100.0
+          mode: slider
+          step: 1.0
+          unit_of_measurement: '%'
     sync:
       name: Always Sync
       description: 'Always set light colour and brightness to a set of defaults on power on'
@@ -99,6 +131,9 @@ blueprint:
       default: 300
       selector:
         color_temp:
+          min: 2300
+          max: 6700
+          unit: kelvin
     default_brightness:
       name: Always Sync - brightness
       description: 'Brightness percentage to set lights to when long-pressing the on button'
@@ -128,13 +163,26 @@ blueprint:
       default: '07:00:00'
       selector:
         time:
-    night_mode_scene:
-      name: Night Mode - scene
-      description: 'Scene for use with Night Mode'
+    night_mode_colour_temp:
+      name: Night Mode - colour temperature
+      description: 'Colour temperature to use with Night Mode'
+      default: 2700
       selector:
-        entity:
-          domain: scene
-          multiple: false
+        color_temp:
+          min: 2300
+          max: 6700
+          unit: kelvin
+    night_mode_brightness:
+      name: Night Mode - brightness
+      description: 'Brightness percentage to use with Night Mode'
+      default: 100
+      selector:
+        number:
+          min: 0.0
+          max: 100.0
+          mode: slider
+          step: 1.0
+          unit_of_measurement: '%'
 mode: restart
 max_exceeded: silent
 variables:
@@ -157,47 +205,53 @@ action:
             after: !input 'night_mode_start'
             before: !input 'night_mode_end'
           sequence:
-            service: scene.turn_on
-            target:
-              entity_id: !input 'night_mode_scene'
+            service: light.turn_on
+            target: !input 'light'
+            data:
+              brightness_pct: !input 'night_mode_brightness'
+              color_temp_kelvin: !input 'night_mode_colour_temp'
         - conditions: '{{ sync }}'
           sequence:
             service: light.turn_on
             target: !input 'light'
             data:
               brightness_pct: !input 'default_brightness'
-              color_temp: !input 'default_colour_temp'
+              color_temp_kelvin: !input 'default_colour_temp'
         default:
           - service: light.turn_on
             target: !input 'light'
   - conditions: '{{ command == ''on_double_press'' }}'
     sequence:
-      service: scene.turn_on
-      target:
-        entity_id: !input 'on_scene'
+      service: light.turn_on
+      target: !input 'light'
+      data:
+        brightness_pct: !input 'on_double_click_brightness'
+        color_temp_kelvin: !input 'on_double_click_colour_temp'
   - conditions: '{{ command == ''on_hold'' }}'
     sequence:
       service: light.turn_on
       target: !input 'light'
       data:
         brightness_pct: !input 'on_brightness'
-        color_temp: !input 'on_colour_temp'
+        color_temp_kelvin: !input 'on_colour_temp'
   - conditions: '{{ command == ''off_short_release'' }}'
     sequence:
       service: light.turn_off
       target: !input 'light'
   - conditions: '{{ command == ''off_double_press'' }}'
     sequence:
-      service: scene.turn_on
-      target:
-        entity_id: !input 'off_scene'
+      service: light.turn_on
+      target: !input 'light'
+      data:
+        brightness_pct: !input 'off_double_click_brightness'
+        color_temp_kelvin: !input 'off_double_click_colour_temp'
   - conditions: '{{ command == ''off_hold'' }}'
     sequence:
       service: light.turn_on
       target: !input 'light'
       data:
         brightness_pct: !input 'off_brightness'
-        color_temp: !input 'off_colour_temp'
+        color_temp_kelvin: !input 'off_colour_temp'
   - conditions:
     - condition: or
       conditions:
