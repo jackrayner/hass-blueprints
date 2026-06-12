@@ -45,7 +45,6 @@ blueprint:
       default: 300
       selector:
         color_temp:
-          unit: kelvin
     on_brightness:
       name: On button long-press brightness
       description: 'Brightness percentage to set lights to when long-pressing the on button'
