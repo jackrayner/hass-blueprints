@@ -45,6 +45,7 @@ blueprint:
       default: 300
       selector:
         color_temp:
+          unit: kelvin
     on_brightness:
       name: On button long-press brightness
       description: 'Brightness percentage to set lights to when long-pressing the on button'
@@ -62,6 +63,7 @@ blueprint:
       default: 454
       selector:
         color_temp:
+          unit: kelvin
     off_brightness:
       name: Off button long-press brightness
       description: 'Brightness percentage to set lights to when long-pressing the off button'
@@ -79,6 +81,7 @@ blueprint:
       default: 300
       selector:
         color_temp:
+          unit: kelvin
     on_double_click_brightness:
       name: On button double-click brightness
       description: 'Brightness percentage to set lights to when double-clicking the on button'
@@ -96,6 +99,7 @@ blueprint:
       default: 454
       selector:
         color_temp:
+          unit: kelvin
     off_double_click_brightness:
       name: Off button double-click brightness
       description: 'Brightness percentage to set lights to when double-clicking the off (hue) button'
@@ -119,6 +123,7 @@ blueprint:
       default: 300
       selector:
         color_temp:
+          unit: kelvin
     default_brightness:
       name: Always Sync - brightness
       description: 'Brightness percentage to set lights to when long-pressing the on button'
@@ -154,6 +159,7 @@ blueprint:
       default: 300
       selector:
         color_temp:
+          unit: kelvin
     night_mode_brightness:
       name: Night Mode - brightness
       description: 'Brightness percentage to use with Night Mode'
