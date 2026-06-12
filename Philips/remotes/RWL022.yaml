@@ -42,9 +42,11 @@ blueprint:
     on_colour_temp:
       name: On button long-press colour temperature
       description: 'Colour temperature to set lights to when long-pressing the on button'
-      default: 300
+      default: 4500
       selector:
         color_temp:
+          min: 2300
+          max: 6700
           unit: kelvin
     on_brightness:
       name: On button long-press brightness
@@ -60,9 +62,11 @@ blueprint:
     off_colour_temp:
       name: Off button long-press colour temperature
       description: 'Colour temperature to set lights to when long-pressing the off button'
-      default: 454
+      default: 3000
       selector:
         color_temp:
+          min: 2300
+          max: 6700
           unit: kelvin
     off_brightness:
       name: Off button long-press brightness
@@ -78,9 +82,11 @@ blueprint:
     on_double_click_colour_temp:
       name: On button double-click colour temperature
       description: 'Colour temperature to set lights to when double-clicking the on button'
-      default: 300
+      default: 4500
       selector:
         color_temp:
+          min: 2300
+          max: 6700
           unit: kelvin
     on_double_click_brightness:
       name: On button double-click brightness
@@ -96,9 +102,11 @@ blueprint:
     off_double_click_colour_temp:
       name: Off button double-click colour temperature
       description: 'Colour temperature to set lights to when double-clicking the off (hue) button'
-      default: 454
+      default: 2700
       selector:
         color_temp:
+          min: 2300
+          max: 6700
           unit: kelvin
     off_double_click_brightness:
       name: Off button double-click brightness
@@ -123,6 +131,8 @@ blueprint:
       default: 300
       selector:
         color_temp:
+          min: 2300
+          max: 6700
           unit: kelvin
     default_brightness:
       name: Always Sync - brightness
@@ -156,9 +166,11 @@ blueprint:
     night_mode_colour_temp:
       name: Night Mode - colour temperature
       description: 'Colour temperature to use with Night Mode'
-      default: 300
+      default: 2700
       selector:
         color_temp:
+          min: 2300
+          max: 6700
           unit: kelvin
     night_mode_brightness:
       name: Night Mode - brightness
