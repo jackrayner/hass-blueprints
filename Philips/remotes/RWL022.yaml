@@ -148,13 +148,23 @@ blueprint:
       default: '07:00:00'
       selector:
         time:
-    night_mode_scene:
-      name: Night Mode - scene
-      description: 'Scene for use with Night Mode'
+    night_mode_colour_temp:
+      name: Night Mode - colour temperature
+      description: 'Colour temperature to use with Night Mode'
+      default: 300
       selector:
-        entity:
-          domain: scene
-          multiple: false
+        color_temp:
+    night_mode_brightness:
+      name: Night Mode - brightness
+      description: 'Brightness percentage to use with Night Mode'
+      default: 100
+      selector:
+        number:
+          min: 0.0
+          max: 100.0
+          mode: slider
+          step: 1.0
+          unit_of_measurement: '%'
 mode: restart
 max_exceeded: silent
 variables:
@@ -177,9 +187,11 @@ action:
             after: !input 'night_mode_start'
             before: !input 'night_mode_end'
           sequence:
-            service: scene.turn_on
-            target:
-              entity_id: !input 'night_mode_scene'
+            service: light.turn_on
+            target: !input 'light'
+            data:
+              brightness_pct: !input 'night_mode_brightness'
+              color_temp_kelvin: !input 'night_mode_colour_temp'
         - conditions: '{{ sync }}'
           sequence:
             service: light.turn_on
