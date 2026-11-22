@@ -7,13 +7,9 @@ blueprint:
 
     - Pressing the bottom hue/off button once briefly will turn the lights off.
 
-    - Long-pressing the on button will set the brightness and colour temperature of all lights to the specified values for "On button long-press brightness/colour temperature".
-
-    - Long-pressing the off button will set the brightness and colour temperature of all lights to the specified values for "Off button long-press brightness/colour temperature".
+    - Long-pressing or double-clicking either the on or off button can each be set to apply brightness and colour temperature, activate a scene, or do nothing.
 
     - Clicking or holding either of middle dimmer buttons will adjust the brightness up and down accordingly.
-
-    - Double click either the on or off button to activate a specified scene.
 
     - "Always Sync" mode with configurable colour temperature and brightness to always set the lights to defined values when powered on.
 
@@ -39,54 +35,182 @@ blueprint:
         target:
           entity:
             domain: light
-    on_colour_temp:
-      name: On button long-press colour temperature
-      description: 'Colour temperature to set lights to when long-pressing the on button'
-      default: 300
-      selector:
-        color_temp:
-    on_brightness:
-      name: On button long-press brightness
-      description: 'Brightness percentage to set lights to when long-pressing the on button'
-      default: 100
-      selector:
-        number:
-          min: 0.0
-          max: 100.0
-          mode: slider
-          step: 1.0
-          unit_of_measurement: '%'
-    off_colour_temp:
-      name: Off button long-press colour temperature
-      description: 'Colour temperature to set lights to when long-pressing the off button'
-      default: 454
-      selector:
-        color_temp:
-    off_brightness:
-      name: Off button long-press brightness
-      description: 'Brightness percentage to set lights to when long-pressing the off button'
-      default: 25
-      selector:
-        number:
-          min: 0.0
-          max: 100.0
-          mode: slider
-          step: 1.0
-          unit_of_measurement: '%'
-    on_scene:
-      name: On button double-click scene select
-      description: 'Double-click the on button to quickly change to a specified scene.'
-      selector:
-        entity:
-          domain: scene
-          multiple: false
-    off_scene:
-      name: Off button double-click scene select
-      description: 'Double-click the off (hue) button to quickly change to a specified scene.'
-      selector:
-        entity:
-          domain: scene
-          multiple: false
+    on_hold_section:
+      name: On button long-press
+      icon: mdi:gesture-tap-button
+      collapsed: true
+      description: 'Long-press the on button'
+      input:
+        on_hold_action:
+          name: On button long-press - action
+          description: 'What to do: set brightness/colour temperature on the light(s), activate a scene, or nothing.'
+          default: light
+          selector:
+            select:
+              mode: dropdown
+              options:
+                - label: Set brightness and colour temperature
+                  value: light
+                - label: Activate scene
+                  value: scene
+                - label: Do nothing
+                  value: none
+        on_hold_colour_temp:
+          name: On button long-press - colour temperature
+          description: 'Used when the action is "Set brightness and colour temperature"'
+          default: 300
+          selector:
+            color_temp:
+        on_hold_brightness:
+          name: On button long-press - brightness
+          description: 'Used when the action is "Set brightness and colour temperature"'
+          default: 100
+          selector:
+            number:
+              min: 0.0
+              max: 100.0
+              mode: slider
+              step: 1.0
+              unit_of_measurement: '%'
+        on_hold_scene:
+          name: On button long-press - scene
+          description: 'Used when the action is "Activate scene"'
+          selector:
+            entity:
+              domain: scene
+              multiple: false
+    off_hold_section:
+      name: Off button long-press
+      icon: mdi:gesture-tap-button
+      collapsed: true
+      description: 'Long-press the off (hue) button'
+      input:
+        off_hold_action:
+          name: Off button long-press - action
+          description: 'What to do: set brightness/colour temperature on the light(s), activate a scene, or nothing.'
+          default: light
+          selector:
+            select:
+              mode: dropdown
+              options:
+                - label: Set brightness and colour temperature
+                  value: light
+                - label: Activate scene
+                  value: scene
+                - label: Do nothing
+                  value: none
+        off_hold_colour_temp:
+          name: Off button long-press - colour temperature
+          description: 'Used when the action is "Set brightness and colour temperature"'
+          default: 454
+          selector:
+            color_temp:
+        off_hold_brightness:
+          name: Off button long-press - brightness
+          description: 'Used when the action is "Set brightness and colour temperature"'
+          default: 25
+          selector:
+            number:
+              min: 0.0
+              max: 100.0
+              mode: slider
+              step: 1.0
+              unit_of_measurement: '%'
+        off_hold_scene:
+          name: Off button long-press - scene
+          description: 'Used when the action is "Activate scene"'
+          selector:
+            entity:
+              domain: scene
+              multiple: false
+    on_double_section:
+      name: On button double-click
+      icon: mdi:gesture-tap-button
+      collapsed: true
+      description: 'Double-click the on button'
+      input:
+        on_double_action:
+          name: On button double-click - action
+          description: 'What to do: set brightness/colour temperature on the light(s), activate a scene, or nothing.'
+          default: scene
+          selector:
+            select:
+              mode: dropdown
+              options:
+                - label: Set brightness and colour temperature
+                  value: light
+                - label: Activate scene
+                  value: scene
+                - label: Do nothing
+                  value: none
+        on_double_colour_temp:
+          name: On button double-click - colour temperature
+          description: 'Used when the action is "Set brightness and colour temperature"'
+          default: 300
+          selector:
+            color_temp:
+        on_double_brightness:
+          name: On button double-click - brightness
+          description: 'Used when the action is "Set brightness and colour temperature"'
+          default: 100
+          selector:
+            number:
+              min: 0.0
+              max: 100.0
+              mode: slider
+              step: 1.0
+              unit_of_measurement: '%'
+        on_double_scene:
+          name: On button double-click - scene
+          description: 'Used when the action is "Activate scene"'
+          selector:
+            entity:
+              domain: scene
+              multiple: false
+    off_double_section:
+      name: Off button double-click
+      icon: mdi:gesture-tap-button
+      collapsed: true
+      description: 'Double-click the off (hue) button'
+      input:
+        off_double_action:
+          name: Off button double-click - action
+          description: 'What to do: set brightness/colour temperature on the light(s), activate a scene, or nothing.'
+          default: scene
+          selector:
+            select:
+              mode: dropdown
+              options:
+                - label: Set brightness and colour temperature
+                  value: light
+                - label: Activate scene
+                  value: scene
+                - label: Do nothing
+                  value: none
+        off_double_colour_temp:
+          name: Off button double-click - colour temperature
+          description: 'Used when the action is "Set brightness and colour temperature"'
+          default: 454
+          selector:
+            color_temp:
+        off_double_brightness:
+          name: Off button double-click - brightness
+          description: 'Used when the action is "Set brightness and colour temperature"'
+          default: 25
+          selector:
+            number:
+              min: 0.0
+              max: 100.0
+              mode: slider
+              step: 1.0
+              unit_of_measurement: '%'
+        off_double_scene:
+          name: Off button double-click - scene
+          description: 'Used when the action is "Activate scene"'
+          selector:
+            entity:
+              domain: scene
+              multiple: false
     sync:
       name: Always Sync
       description: 'Always set light colour and brightness to a set of defaults on power on'
@@ -139,6 +263,10 @@ mode: restart
 max_exceeded: silent
 variables:
   sync: !input "sync"
+  on_hold_action: !input "on_hold_action"
+  off_hold_action: !input "off_hold_action"
+  on_double_action: !input "on_double_action"
+  off_double_action: !input "off_double_action"
 trigger:
 - platform: event
   event_type: zha_event
@@ -172,32 +300,76 @@ action:
             target: !input 'light'
   - conditions: '{{ command == ''on_double_press'' }}'
     sequence:
-      service: scene.turn_on
-      target:
-        entity_id: !input 'on_scene'
+      - choose:
+        - conditions: '{{ on_double_action == ''light'' }}'
+          sequence:
+            - service: light.turn_on
+              target: !input 'light'
+              data:
+                brightness_pct: !input 'on_double_brightness'
+                color_temp: !input 'on_double_colour_temp'
+        - conditions:
+          - '{{ on_double_action == ''scene'' }}'
+          - '{{ on_double_scene is not none }}'
+          sequence:
+            - service: scene.turn_on
+              target:
+                entity_id: !input 'on_double_scene'
   - conditions: '{{ command == ''on_hold'' }}'
     sequence:
-      service: light.turn_on
-      target: !input 'light'
-      data:
-        brightness_pct: !input 'on_brightness'
-        color_temp: !input 'on_colour_temp'
+      - choose:
+        - conditions: '{{ on_hold_action == ''light'' }}'
+          sequence:
+            - service: light.turn_on
+              target: !input 'light'
+              data:
+                brightness_pct: !input 'on_hold_brightness'
+                color_temp: !input 'on_hold_colour_temp'
+        - conditions:
+          - '{{ on_hold_action == ''scene'' }}'
+          - '{{ on_hold_scene is not none }}'
+          sequence:
+            - service: scene.turn_on
+              target:
+                entity_id: !input 'on_hold_scene'
   - conditions: '{{ command == ''off_short_release'' }}'
     sequence:
       service: light.turn_off
       target: !input 'light'
   - conditions: '{{ command == ''off_double_press'' }}'
     sequence:
-      service: scene.turn_on
-      target:
-        entity_id: !input 'off_scene'
+      - choose:
+        - conditions: '{{ off_double_action == ''light'' }}'
+          sequence:
+            - service: light.turn_on
+              target: !input 'light'
+              data:
+                brightness_pct: !input 'off_double_brightness'
+                color_temp: !input 'off_double_colour_temp'
+        - conditions:
+          - '{{ off_double_action == ''scene'' }}'
+          - '{{ off_double_scene is not none }}'
+          sequence:
+            - service: scene.turn_on
+              target:
+                entity_id: !input 'off_double_scene'
   - conditions: '{{ command == ''off_hold'' }}'
     sequence:
-      service: light.turn_on
-      target: !input 'light'
-      data:
-        brightness_pct: !input 'off_brightness'
-        color_temp: !input 'off_colour_temp'
+      - choose:
+        - conditions: '{{ off_hold_action == ''light'' }}'
+          sequence:
+            - service: light.turn_on
+              target: !input 'light'
+              data:
+                brightness_pct: !input 'off_hold_brightness'
+                color_temp: !input 'off_hold_colour_temp'
+        - conditions:
+          - '{{ off_hold_action == ''scene'' }}'
+          - '{{ off_hold_scene is not none }}'
+          sequence:
+            - service: scene.turn_on
+              target:
+                entity_id: !input 'off_hold_scene'
   - conditions:
     - condition: or
       conditions:
