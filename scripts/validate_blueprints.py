@@ -104,10 +104,18 @@ def check(path):
     return errors, warnings
 
 
+def is_blueprint(path):
+    """True if the file has a top-level `blueprint:` key (so config like .yamllint.yaml is skipped)."""
+    try:
+        return any(line.startswith("blueprint:") for line in path.read_text(encoding="utf-8").splitlines())
+    except (OSError, UnicodeDecodeError):
+        return False
+
+
 def find_blueprints():
     return sorted(
         p for p in ROOT.rglob("*.yaml")
-        if not SKIP_DIRS & set(p.relative_to(ROOT).parts)
+        if not SKIP_DIRS & set(p.relative_to(ROOT).parts) and is_blueprint(p)
     )
 
 
