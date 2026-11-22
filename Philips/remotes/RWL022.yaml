@@ -140,7 +140,7 @@ blueprint:
         on_double_action:
           name: On button double-click - action
           description: 'What to do: set brightness/colour temperature on the light(s), activate a scene, or nothing.'
-          default: scene
+          default: light
           selector:
             select:
               mode: dropdown
@@ -188,7 +188,7 @@ blueprint:
         off_double_action:
           name: Off button double-click - action
           description: 'What to do: set brightness/colour temperature on the light(s), activate a scene, or nothing.'
-          default: scene
+          default: light
           selector:
             select:
               mode: dropdown
