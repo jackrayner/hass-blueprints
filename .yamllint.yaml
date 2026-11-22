@@ -1,0 +1,11 @@
+extends: relaxed
+
+ignore: |
+  .git/
+
+rules:
+  line-length: disable
+  trailing-spaces: disable
+  indentation: disable
+  truthy:
+    check-keys: false
