@@ -58,9 +58,12 @@ blueprint:
         on_hold_colour_temp:
           name: On button long-press - colour temperature
           description: 'Used when the action is "Set brightness and colour temperature"'
-          default: 300
+          default: 3333
           selector:
             color_temp:
+              unit: kelvin
+              min: 2000
+              max: 6535
         on_hold_brightness:
           name: On button long-press - brightness
           description: 'Used when the action is "Set brightness and colour temperature"'
@@ -102,9 +105,12 @@ blueprint:
         off_hold_colour_temp:
           name: Off button long-press - colour temperature
           description: 'Used when the action is "Set brightness and colour temperature"'
-          default: 454
+          default: 2200
           selector:
             color_temp:
+              unit: kelvin
+              min: 2000
+              max: 6535
         off_hold_brightness:
           name: Off button long-press - brightness
           description: 'Used when the action is "Set brightness and colour temperature"'
@@ -146,9 +152,12 @@ blueprint:
         on_double_colour_temp:
           name: On button double-click - colour temperature
           description: 'Used when the action is "Set brightness and colour temperature"'
-          default: 300
+          default: 3333
           selector:
             color_temp:
+              unit: kelvin
+              min: 2000
+              max: 6535
         on_double_brightness:
           name: On button double-click - brightness
           description: 'Used when the action is "Set brightness and colour temperature"'
@@ -190,9 +199,12 @@ blueprint:
         off_double_colour_temp:
           name: Off button double-click - colour temperature
           description: 'Used when the action is "Set brightness and colour temperature"'
-          default: 454
+          default: 2200
           selector:
             color_temp:
+              unit: kelvin
+              min: 2000
+              max: 6535
         off_double_brightness:
           name: Off button double-click - brightness
           description: 'Used when the action is "Set brightness and colour temperature"'
@@ -220,9 +232,12 @@ blueprint:
     default_colour_temp:
       name: Always Sync - colour temperature
       description: 'Colour temperature to set lights to when long-pressing the on button'
-      default: 300
+      default: 3333
       selector:
         color_temp:
+          unit: kelvin
+          min: 2000
+          max: 6535
     default_brightness:
       name: Always Sync - brightness
       description: 'Brightness percentage to set lights to when long-pressing the on button'
@@ -294,7 +309,7 @@ action:
             target: !input 'light'
             data:
               brightness_pct: !input 'default_brightness'
-              color_temp: !input 'default_colour_temp'
+              color_temp_kelvin: !input 'default_colour_temp'
         default:
           - service: light.turn_on
             target: !input 'light'
@@ -307,7 +322,7 @@ action:
               target: !input 'light'
               data:
                 brightness_pct: !input 'on_double_brightness'
-                color_temp: !input 'on_double_colour_temp'
+                color_temp_kelvin: !input 'on_double_colour_temp'
         - conditions:
           - '{{ on_double_action == ''scene'' }}'
           - '{{ on_double_scene is not none }}'
@@ -324,7 +339,7 @@ action:
               target: !input 'light'
               data:
                 brightness_pct: !input 'on_hold_brightness'
-                color_temp: !input 'on_hold_colour_temp'
+                color_temp_kelvin: !input 'on_hold_colour_temp'
         - conditions:
           - '{{ on_hold_action == ''scene'' }}'
           - '{{ on_hold_scene is not none }}'
@@ -345,7 +360,7 @@ action:
               target: !input 'light'
               data:
                 brightness_pct: !input 'off_double_brightness'
-                color_temp: !input 'off_double_colour_temp'
+                color_temp_kelvin: !input 'off_double_colour_temp'
         - conditions:
           - '{{ off_double_action == ''scene'' }}'
           - '{{ off_double_scene is not none }}'
@@ -362,7 +377,7 @@ action:
               target: !input 'light'
               data:
                 brightness_pct: !input 'off_hold_brightness'
-                color_temp: !input 'off_hold_colour_temp'
+                color_temp_kelvin: !input 'off_hold_colour_temp'
         - conditions:
           - '{{ off_hold_action == ''scene'' }}'
           - '{{ off_hold_scene is not none }}'

@@ -53,13 +53,14 @@ blueprint:
     colour_temp:
       name: Colour temparature
       description: Colour temperature of the light(s) when turning on
-      default: 340
+      default: 2900
       selector:
         number:
-          min: 250
-          max: 454
+          min: 2200
+          max: 4000
           mode: slider
-          step: 1
+          step: 50
+          unit_of_measurement: K
     button_left_short:
       name: Left button - short press
       description: Action to run on short left button press
@@ -119,7 +120,7 @@ action:
                     data:
                       transition: 1
                       brightness_pct: !input brightness
-                      color_temp: !input colour_temp
+                      color_temp_kelvin: !input colour_temp
               - conditions: 
                   - "{{ force_brightness }}"
                 sequence:
