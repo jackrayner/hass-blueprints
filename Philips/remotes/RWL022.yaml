@@ -140,7 +140,7 @@ blueprint:
         on_double_action:
           name: On button double-click - action
           description: 'What to do: set brightness/colour temperature on the light(s), activate a scene, or nothing.'
-          default: scene
+          default: light
           selector:
             select:
               mode: dropdown
@@ -188,7 +188,7 @@ blueprint:
         off_double_action:
           name: Off button double-click - action
           description: 'What to do: set brightness/colour temperature on the light(s), activate a scene, or nothing.'
-          default: scene
+          default: light
           selector:
             select:
               mode: dropdown
@@ -339,7 +339,7 @@ action:
           sequence:
             - service: scene.turn_on
               target:
-                entity_id: !input 'on_double_scene'
+                entity_id: '{{ on_double_scene }}'
   - conditions: '{{ command == ''on_hold'' }}'
     sequence:
       - choose:
@@ -356,7 +356,7 @@ action:
           sequence:
             - service: scene.turn_on
               target:
-                entity_id: !input 'on_hold_scene'
+                entity_id: '{{ on_hold_scene }}'
   - conditions: '{{ command == ''off_short_release'' }}'
     sequence:
       service: light.turn_off
@@ -377,7 +377,7 @@ action:
           sequence:
             - service: scene.turn_on
               target:
-                entity_id: !input 'off_double_scene'
+                entity_id: '{{ off_double_scene }}'
   - conditions: '{{ command == ''off_hold'' }}'
     sequence:
       - choose:
@@ -394,7 +394,7 @@ action:
           sequence:
             - service: scene.turn_on
               target:
-                entity_id: !input 'off_hold_scene'
+                entity_id: '{{ off_hold_scene }}'
   - conditions:
     - condition: or
       conditions:
