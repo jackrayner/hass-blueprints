@@ -278,6 +278,7 @@ mode: restart
 max_exceeded: silent
 variables:
   sync: !input "sync"
+  night_mode: !input "night_mode"
   on_hold_action: !input "on_hold_action"
   off_hold_action: !input "off_hold_action"
   on_double_action: !input "on_double_action"
@@ -296,7 +297,8 @@ action:
     sequence:
       - choose:
         - conditions:
-            condition: time
+          - '{{ night_mode }}'
+          - condition: time
             after: !input 'night_mode_start'
             before: !input 'night_mode_end'
           sequence:
