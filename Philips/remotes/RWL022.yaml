@@ -78,7 +78,7 @@ blueprint:
         on_hold_scene:
           name: On button long-press - scene
           description: 'Used when the action is "Activate scene"'
-          default: ''
+          default: none
           selector:
             entity:
               domain: scene
@@ -126,7 +126,7 @@ blueprint:
         off_hold_scene:
           name: Off button long-press - scene
           description: 'Used when the action is "Activate scene"'
-          default: ''
+          default: none
           selector:
             entity:
               domain: scene
@@ -174,7 +174,7 @@ blueprint:
         on_double_scene:
           name: On button double-click - scene
           description: 'Used when the action is "Activate scene"'
-          default: ''
+          default: none
           selector:
             entity:
               domain: scene
@@ -222,7 +222,7 @@ blueprint:
         off_double_scene:
           name: Off button double-click - scene
           description: 'Used when the action is "Activate scene"'
-          default: ''
+          default: none
           selector:
             entity:
               domain: scene
@@ -335,7 +335,7 @@ action:
                 color_temp_kelvin: !input 'on_double_colour_temp'
         - conditions:
           - '{{ on_double_action == ''scene'' }}'
-          - '{{ on_double_scene not in [none, ""] }}'
+          - '{{ on_double_scene not in [none, "", "none"] }}'
           sequence:
             - service: scene.turn_on
               target:
@@ -352,7 +352,7 @@ action:
                 color_temp_kelvin: !input 'on_hold_colour_temp'
         - conditions:
           - '{{ on_hold_action == ''scene'' }}'
-          - '{{ on_hold_scene not in [none, ""] }}'
+          - '{{ on_hold_scene not in [none, "", "none"] }}'
           sequence:
             - service: scene.turn_on
               target:
@@ -373,7 +373,7 @@ action:
                 color_temp_kelvin: !input 'off_double_colour_temp'
         - conditions:
           - '{{ off_double_action == ''scene'' }}'
-          - '{{ off_double_scene not in [none, ""] }}'
+          - '{{ off_double_scene not in [none, "", "none"] }}'
           sequence:
             - service: scene.turn_on
               target:
@@ -390,7 +390,7 @@ action:
                 color_temp_kelvin: !input 'off_hold_colour_temp'
         - conditions:
           - '{{ off_hold_action == ''scene'' }}'
-          - '{{ off_hold_scene not in [none, ""] }}'
+          - '{{ off_hold_scene not in [none, "", "none"] }}'
           sequence:
             - service: scene.turn_on
               target:
