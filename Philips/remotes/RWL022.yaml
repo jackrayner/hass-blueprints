@@ -78,7 +78,7 @@ blueprint:
         on_hold_scene:
           name: On button long-press - scene
           description: 'Used when the action is "Activate scene"'
-          default: none
+          default: ''
           selector:
             entity:
               domain: scene
@@ -126,7 +126,7 @@ blueprint:
         off_hold_scene:
           name: Off button long-press - scene
           description: 'Used when the action is "Activate scene"'
-          default: none
+          default: ''
           selector:
             entity:
               domain: scene
@@ -174,7 +174,7 @@ blueprint:
         on_double_scene:
           name: On button double-click - scene
           description: 'Used when the action is "Activate scene"'
-          default: none
+          default: ''
           selector:
             entity:
               domain: scene
@@ -222,7 +222,7 @@ blueprint:
         off_double_scene:
           name: Off button double-click - scene
           description: 'Used when the action is "Activate scene"'
-          default: none
+          default: ''
           selector:
             entity:
               domain: scene
