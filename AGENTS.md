@@ -19,4 +19,5 @@ A collection of [Home Assistant blueprints](https://www.home-assistant.io/docs/b
 ## Workflow
 
 - `main` is protected: open a PR rather than pushing. The owner is exempt as a repository admin.
-- There is no CI yet, so there are no required checks.
+- CI (`.github/workflows/ci.yml`) runs `validate`, `yamllint` and `markdownlint`. Run `pip install -r scripts/requirements.txt && python scripts/validate_blueprints.py` locally before pushing; add `--strict` to treat warnings (removed `light.turn_on` parameters) as errors.
+- Home Assistant 2026.3 removed the mired `color_temp` parameter from `light.turn_on`; use `color_temp_kelvin`.

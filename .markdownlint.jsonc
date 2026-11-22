@@ -1,0 +1,5 @@
+{
+  // Long lines are fine in prose; inline HTML is allowed.
+  "MD013": false,
+  "MD033": false
+}
